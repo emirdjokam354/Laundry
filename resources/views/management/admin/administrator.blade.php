@@ -40,7 +40,6 @@
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
     }
     .panel-border  {
     background-color: #ffffff;

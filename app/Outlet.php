@@ -11,11 +11,16 @@ class Outlet extends Model
 
     public function users()
     {
-        return $this->hasOne('App\User');
+        return $this->hasMany('App\User');
     }
 
     public function transaksi()
     {
         return $this->hasMany('App\Transaksi');
+    }
+
+    public function paket()
+    {
+        return $this->hasMany('App\Paket');
     }
 }

@@ -66,7 +66,7 @@ class AdministratorController extends Controller
         //update data admin
         $user = User::find($request->id);
           $user->email = $request['email'];
-          $user->password = $request['password'];
+        //   $user->password = $request['password'];
           $user->name = $request['name'];
           $user->outlet_id = $request['id_outlet'];
           $user->role = "admin"; 

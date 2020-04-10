@@ -14,10 +14,30 @@
 			<img src="{{asset('img/undraw.svg')}}">
 		</div>
 		<div class="login-content">
+			
 			<form method="POST" action="{{ route('login') }}">
+				{{-- @if(session('error'))
+				            <div class="alert alert-error">
+				              {{ session('error') }}
+				            </div>
+				            @endif
+
+				            @if (count($errors) > 0)
+				            <div class="alert alert-danger">
+				              <strong>Perhatikan</strong>
+				              <br/>
+				              <ul>
+				                  @foreach ($errors->all() as $error)
+				                  <li>{{ $error }}</li>
+				                  @endforeach
+				              </ul>
+				            </div>
+				@endif --}}
 				@csrf
 				<img src="{{asset('img/people.svg')}}">
 				<h4 class="title">Snapwash Admin</h4>
+				<br>
+				
            		<div class="input-div one">
            		   <div class="i">
            		   		<i class="fas fa-user"></i>
@@ -26,13 +46,15 @@
            		   		<h5>Email</h5>
 							  <input type="email" id="email" class="input @error('email') is-invalid @enderror" 
 							  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-							  @error('email')
+							  
+					  </div>
+					  
+				   </div>
+				   @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-           		   </div>
-           		</div>
+                    @enderror
            		<div class="input-div pass">
            		   <div class="i"> 
            		    	<i class="fas fa-lock"></i>

@@ -39,7 +39,6 @@
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
     }
     .panel-border  {
     background-color: #ffffff;
@@ -121,12 +120,12 @@
                     <th scope="col">No</th>
                     <th scope="col">Tgl.Transaksi</th>
                     <th scope="col">No.Invoice</th>
-                    <th scope="col">Pembayaran</th>
                     <th scope="col">Pelanggan</th>
-                    <th scope="col">Outlet</th>
+                    <th scope="col">Toko</th>
+                    <th scope="col">Pembayaran</th>
                     <th scope="col">Status Order</th>
                     <th scope="col">Total</th>
-                    <th scope="col" colspan="3">Aksi</th>
+                    <th scope="col" colspan="2">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -139,26 +138,23 @@
                     <th scope="row">{{ $no++ }}</th>
                     <td>{{ $row->tgl }}</td> 
                     <td>{{$row->kode_invoice}}</td>
-                    <td><span class="badge badge-success">{{$row->dibayar}}</span></td>
                     <td>{{ $row->pelanggan->nama }}</td>
                     <td>{{ $row->outlet->nama }}</td>
+                    <td><span class="badge badge-success">{{$row->dibayar}}</span></td>                    
                     <td><span class="badge badge-success">{{ $row->status }}</span></td>
-                    <td>@currency($row->diskon)</td>
+                    <td>@currency($row->paket['harga'] * $row['qty'])</td>
+
                         <td><a href="/transaksi/detail/{{$row->id}}" class="btn btn-primary">Detail</a></td>
-                        <td><a class="fas fa-edit bg-success p-2 text-white rounded"  href="/paket/edit/{{$row->id}}" data-toggle="tooltip"
-                                title="Edit"></a></td>
-                      {{-- <form action="/transaksi/hapus" method="post">
-                        @csrf
-                        <input type="hidden" name="id" value="{{$row->id}}"> --}}
+                        {{-- <td><a class="fas fa-edit bg-success p-2 text-white rounded"  href="/transaksi/edit/{{$row->id}}" data-toggle="tooltip"
+                                title="Edit"></a></td> --}}
                         <td><a href="/transaksi/hapus/{{$row->id}}" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" data-toogle="tooltip" >
                         </a></td>
-                      {{-- </form> --}}
                     </tr>    
                     @endforeach
                     
                 </tbody>
             </table>
-
+              {{ $transaksi->links() }}
               </div>
             </div>
             <!-- small box -->

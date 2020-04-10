@@ -25,4 +25,9 @@ class Transaksi extends Model
         return $this->hasOne('App\DetailTransaksi');
     }
 
+    public function paket()
+    {
+        return $this->belongsTo('App\Paket');
+    }
+
 }

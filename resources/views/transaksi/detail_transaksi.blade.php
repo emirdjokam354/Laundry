@@ -40,7 +40,7 @@
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
+    
     }
     .panel-border  {
     background-color: #ffffff;
@@ -110,13 +110,13 @@
         <div class="row mt-4 p-3">
           <div class="col-lg col">
             <!-- small box -->
-            <div class="card panel-border panel-primary"">
+            <div class="card panel-border panel-primary">
                 <p class="card-header">
                     <i class="fas fa-user-edit" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Detail Transaksi</label> 
                 </p>
-                <div class="card-body ">
+                <div class="card-body">
                     @foreach ($transaksi as $row)                        
-                    <form action="/paket/update" method="post" enctype="multipart/form-data">
+                    <form action="/transaksi/detail" method="post" enctype="multipart/form-data">
                          @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-block">
                             <button type="button" class="close" data-dismiss="alert">×</button> 
@@ -125,6 +125,7 @@
                         @endif
                         @csrf
                         <input type="hidden" name="id" value="{{$row->id}}">
+                        <input type="hidden" name="id_transaksi" value="{{$row->transaksi_id}}">
                         <div class="form-group row">
                             <label for="kd_invoice" class="col-sm-2 col-form-label">No.Invoice</label>
                             <div class="col-sm-10">
@@ -152,44 +153,177 @@
                         <div class="form-group row">
                             <label for="inputTgl" class="col-sm-2 col-form-label">Batas Pembayaran</label>
                             <div class="col-sm-10">
-                            <input type="date" readonly value="{{ old('batas_waktu')}}" class="form-control" name="batas_waktu" id="inputTgl">
+                            <input type="date"  name="batas_waktu" readonly value="{{ old($row->batas_waktu, date('Y-m-d'))}}" class="form-control" id="inputTgl">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputbayar" class="col-sm-2 col-form-label">Tanggal Pembayaran</label>
+                            <div class="col-sm-10">
+                            <input type="date" value="{{ old('batas_waktu')}}" class="form-control" name="batas_waktu" id="inputbayar">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="paket" class="col-sm-2 col-form-label">Paket</label>
+                            <div class="col-sm-10">
+                            <select name="id_paket" required id="paket" class="form-control">
+
+                            <option>Pilih Paket</option>
+                            @foreach ($paket as $data_paket)
+                              <option value="{{ $data_paket->id }}">{{ $data_paket->id}}. {{ $data_paket->nm_paket }}</option>
+                            @endforeach
+
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="qty" class="col-sm-2 col-form-label">Kuantitas</label>
+                            <div class="col-sm-10">
+                            <input type="number" class="form-control" name="qty" id="qty">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ket" class="col-sm-2 col-form-label">Keterangan</label>
+                            <div class="col-sm-10">
+                            <textarea type="text" class="form-control" name="keterangan" id="ket"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="jenis" class="col-sm-2 col-form-label">Status Pemesanan</label>
                             <div class="col-sm-10">
-                            <select name="status_order" required id="jenis" class="form-control">
+                            <select name="status" required id="jenis" class="form-control">
 
                             <option>Pilih Status Pemesanan</option>
-                            <option value="baru">Baru</option>
-                            <option value="proses">Proses</option>
-                            <option value="selesai">Selesai</option>
-                            <option value="diambil">Diambil</option>
+                            <option {{ old('status', $row->status) == "baru" ?
+                            'selected' : '' }}
+                            value="baru">Baru</option>
+                            <option {{ old('status', $row->status) == "proses" ?
+                            'selected' : '' }} 
+                            value="proses">Proses</option>
+                            <option {{ old('status', $row->status) == "selesai" ?
+                            'selected' : '' }} 
+                            value="selesai">Selesai</option>
+                            <option {{ old('status', $row->status) == "diambil" ?
+                            'selected' : '' }} 
+                            value="diambil">Diambil</option>
                             </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="jenis" class="col-sm-2 col-form-label">Status Pembayaran</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-10"> 
                             <select name="dibayar" required id="jenis" class="form-control">
-                            <option {{ old('dibayar', $row->dibayar) == "belum_bayar" ? 
+                              <option value="">Pilih Status Pembayaran</option>
+                            <option {{ old('dibayar', $row->dibayar) == "belum_dibayar" ? 
                             'selected' : '' }} 
-                              value="belum_bayar">Belum Dibayar</option>
-                            <option {{ old('dibayar', $row->dibayar) == "sudah_bayar" ?
-                            'selected' : '' }} value="sudah_bayar">Sudah Dibayar</option>
+                              value="belum_dibayar">Belum Dibayar</option>
+                            <option {{ old('dibayar', $row->dibayar) == "sudah_dibayar" ?
+                            'selected' : '' }} value="sudah_dibayar">Sudah Dibayar</option>
                             </select>
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary" style="margin-left:190px;margin-top:20px" value="Update"></input>
-                        <a href="/transaksi" type="button" class="btn btn-danger" style="margin-top:20px">Kembali</a>
-                    </form>
+                        
+                 
+                  <table class="table table-striped border mt-5 text-center">
+                      <thead>
+                        <tr>
+                          <th scope="col">No</th>
+                          <th scope="col">Tgl Transaksi</th>
+                          <th scope="col">Paket Cucian</th>
+                          <th scope="col">Kuantitas</th>
+                          <th scope="col">Harga/Kg</th>
+                          <th scope="col">Keterangan</th>
+                          <th scope="keterangan">Subtotal</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>{{ $row->tgl }}</td>
+                          @foreach ($detail as $data)
+                           <td>{{ $data->paket->nm_paket }}</td>   
+                          <td>{{ $data->qty }}</td>
+                          <td>{{ $data->paket->harga }}</td>
+                          <td>{{ $data->keterangan }}</td> 
+                          <td>@currency($data->paket['harga'] * $data['qty'])</td>
+                          
+                        </tr>
+                        <tr>
+                          <th scope="row" colspan="5" style="padding-left:400px;background-color:#1e88e5;color:white">Total Pesanan</th>
+                          <td></td>
+                          <td>@currency($data->paket['harga'] * $data['qty'])</td>
+                        </tr>
+                        @endforeach
+                      </tbody>
+                  </table>    
+                  <input type="submit" class="btn btn-primary" style="margin-top:20px;float:left;" value="Proses Order"></input>
+                  <a href="/transaksi" type="button" class="btn btn-danger" style="margin-top:20px;margin-left:10px">Cetak Invoice</a>
+                    </form>            
                  @endforeach
+
+                 
                 </div>
             </div>
           </div>
         
           <!-- ./col -->
         </div>
+
+        <!-- new row -->
+         {{-- <div class="row p-3">
+          <div class="col-12">
+            <div class="card panel-border panel-primary">
+              <div class="card-header">
+                <h3 class="card-title">Data Detail Transaksi</h3>
+
+                <div class="card-tools">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Tgl Tranasaksi</th>
+                      <th>Paket Laundry</th>
+                      <th>Kuantitas</th>
+                      <th>Berat Cucian</th>
+                      <th>Keterangan</th>
+                      <th>Harga/Kg</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>183</td>
+                      <td>John Doe</td>
+                      <td>11-7-2014</td>
+                      <td><span class="tag tag-success">Approved</span></td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                    <tr>
+                      <td>219</td>
+                      <td>Alexander Pierce</td>
+                      <td>11-7-2014</td>
+                      <td><span class="tag tag-warning">Pending</span></td>
+                      <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div> --}}
+        
         <!-- /.row -->
         <!-- Main row -->
 

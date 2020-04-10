@@ -31,6 +31,18 @@
    
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+  <style>
+    .panel-border.panel-primary 
+    {
+    border-color: #1e88e5 !important;
+    }
+    .panel-border  {
+    background-color: #ffffff;
+    border-top: 3px solid #ccc !important;
+    border-radius: 3px;
+    padding: 10px 20px 0px;
+    }
+  </style>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -87,7 +99,7 @@
         <div class="row mt-4 p-3">
           <div class="col-lg col">
             <!-- small box -->
-            <div class="card">
+            <div class="card panel-border panel-primary">
                 <p class="card-header">
                     <i class="fas fa-user-edit" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Edit Data Kasir</label> 
                 </p>
@@ -125,8 +137,10 @@
                             <div class="col-sm-10">
                             <select name="id_outlet" class="form-control" required="required" >
                             <option>Pilih Outlet</option>
-                            @foreach ($outlet as $item)
-                               <option value="{{ $item->id }}">{{ $item->id }}. {{ $item->nama }}</option> 
+                             @foreach ($outlet as $item)
+                               <option @if ($item->id == $row->outlet_id)
+                                selected     
+                               @endif value="{{ $item->id }}">{{$item->nama}}</option> 
                             @endforeach
                             </select>
                             </div>

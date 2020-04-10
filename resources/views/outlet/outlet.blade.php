@@ -153,6 +153,7 @@
                     <th scope="col">Nama</th>
                     <th scope="col">Alamat</th>
                     <th scope="col">Telepon</th>
+                    <th scope="col">Gambar</th>
                     <th scope="col" colspan="2">Aksi</th>
                     </tr>
                 </thead>
@@ -163,6 +164,7 @@
                     <td>{{ $row->nama }}</td>
                     <td>{{ $row->alamat }}</td>
                     <td>{{ $row->tlp }}</td>
+                    <td><img src="{{ url('uploadgambar') }}/{{ $row->gambar}}" width="100px" height="70px" alt="" srcset=""></td>
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded"  href="/outlet/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td>
                         <td><button type="submit" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" id="trash" 

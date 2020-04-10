@@ -119,6 +119,19 @@
                             <input type="number" class="form-control" value="{{ $row->tlp }}" name="tlp" id="tlp">
                             </div>
                         </div>
+                        <div class="form-group row">
+                        <label for="inputFile" class="col-sm-2 col-form-label">File input</label>
+                        <div class="input-group col-sm-10">
+                            <div class="custom-file">
+                              <input type="file" name="gambar" class="custom-file-input" id="inputFile">
+                              <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                            
+                          </div>
+                            <br>
+                            <br>
+                            <img id="image_upload" style="margin-left:200px" src="http://placehold.it/100x100" width="100px" height="100px" alt="img"/>
+                        </div>
                         <input type="submit" class="btn btn-primary" style="margin-left:190px;margin-top:20px" value="Update"></input>
                         <a href="/outlet" type="button" class="btn btn-danger" style="margin-top:20px">Kembali</a>
                     </form>

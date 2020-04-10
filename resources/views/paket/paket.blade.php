@@ -6,6 +6,7 @@
   <title>AdminLTE 3 | Paket</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="csrf_token" content="{{csrf_token()}}">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
  <!-- Font Awesome -->
@@ -28,6 +29,9 @@
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/summernote/summernote-bs4.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   <style>
@@ -146,6 +150,7 @@
                     <tr>
                     <th scope="col">No</th>
                     <th scope="col">Outlet</th>
+                    <th scope="col">Alamat</th>
                     <th scope="col">Jenis</th>
                     <th scope="col">Nama Paket</th>
                     <th scope="col">Harga/Kg</th>
@@ -156,14 +161,14 @@
                     @foreach ($paket as $row)
                     <tr>
                     <th scope="row">{{ isset($i) ? ++$i : $i =1}}</th>
-                    <td>{{ $row->nama }}</td> 
+                    <td>{{ $row->outlet->nama }}</td> 
+                    <td style="width:300px">{{ $row->outlet->alamat }}</td>
                     <td>{{ $row->jenis }}</td>
                     <td>{{ $row->nm_paket }}</td>
                     <td>@currency($row->harga)</td>
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded" href="/paket/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td>
-                        <td><a type="button" data-url="{{ url('paket/hapus' . $row->id) }}" id="btn-hapus" data-toggle="tooltip" title="hapus"  class="fas fa-trash-alt bg-danger p-2 text-white rounded delete">
-                        </a></td>
+                        <td><a><button class="fas fa-trash-alt bg-danger p-2 text-white rounded" onclick="deleteData({{ $row->id }})" type="submit"></button></a></td>
                     </tr>    
                     @endforeach
 
@@ -239,61 +244,53 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('AdminLte/dist/js/demo.js')}}"></script>
 
+
+
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>
 <script>
- $(document).ready(function () {
-   $("#table-refresh").on('click', '#btn-hapus', function (e) {
-   e.stopPropagation();
-   var link = $(this).attr('data-url');
-   swal.fire({
-     title: "Apakah Anda Yakin?",
-     text: "Data akan terhapus secara permanen",
-     icon: "question",
-     showCancelButton: true,
-     confirmButtonColor: "#3AA9A5",
-     confirmButtonText: "Hapus",
-     cancelButtonText: "Batal",
-     closeOnConfirm: false,
-     closeOnCancel: false,
-   })
-   .then((result) => {
-     if (result.value) {
-       $.ajaxSetup({
-         headers: {
-           'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-         }
-       });
-       $.ajax({
-         url:link,
-         type:'POST',
-         success: function() {
-           $("#table-refresh").load(document.URL + ' #table-refresh');
-           toastr.success("Data Berhasil Dihapus!", "Berhasil", {
-             "showMethod": "slideDown",
-             "hideMethod": "slideUp",
-             timeOut: 3000
-           });
-         },
-         error: function (err) {
-           console.log(err);
-         }
-       })
-       else{
-          swal.fire({
-            icon: 'error',
-            title: 'Gagal',
-            confirmButtonColor: "#3AA9A5",
-            text: "Data Gagal dihapus!",
-          })
-       }
-     }
-   });
- });
- 
-})
 
-</script>
+  $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function deleteData(id){
+            var csrf_token=$('meta[name="csrf_token"]').attr('content');
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url : "{{ url('paket')}}" + '/' + id,
+                        type : "POST",
+                        data : {'_method' : 'DELETE', '_token' :csrf_token},
+                        success: function(data){
+                            swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                            });
+                        },
+                        error : function(){
+                            swal({
+                                title: 'Opps...',
+                                text : data.message,
+                                type : 'error',
+                                timer : '1500'
+                            })
+                        }
+                    })
+                } else {
+                swal("Your imaginary file is safe!");
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>

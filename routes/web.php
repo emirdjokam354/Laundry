@@ -91,7 +91,7 @@ Route::post('/paket/store','PaketController@store');
 Route::get('/paket/edit/{id}','PaketController@edit');
 Route::post('/paket/update','PaketController@update');
 // Route::resource('paket','PaketController');
-Route::get('paket/hapus','PaketController@hapus');
+Route::get('paket{id}','PaketController@destroy');
 Route::get('/paket/cari','PaketController@cari');
 
 //transaksi
@@ -99,7 +99,12 @@ Route::get('/transaksi','TransaksiController@index')->middleware('auth');
 Route::get('/transaksi/tambah','TransaksiController@tambah');
 Route::post('transaksi/store','TransaksiController@store');
 Route::get('/transaksi/hapus/{id}','TransaksiController@hapus');
-Route::get('/transaksi/detail/{id}','TransaksiController@detail');
+Route::get('/transaksi/edit/{id}','TransaksiController@edit');
+Route::post('/transaksi/update','TransaksiController@update');
+//detail transaksi
+Route::get('/transaksi/detail/{id}','DetailTransaksiController@detail');
+Route::post('/transaksi/detail','DetailTransaksiController@ProsesTransaksi');
+
 
 // percobaan pelanggan
 use App\Pelanggan;

@@ -23,10 +23,14 @@ class OutletController extends Controller
             'tlp' => 'required',
         ]);
 
-        $outlet = new Outlet;
+        $gambar = $request->file('gambar');
+        $namafile = $gambar->getClientOriginalName();
+        $request->file('gambar')->mova('uploadgambar',$namafile);
+        $outlet = new Outlet($request->all());
         $outlet->nama = $request['nama'];
         $outlet->alamat = $request['alamat'];
         $outlet->tlp = $request['tlp'];
+        $outlet->gambar = $namafile;
         $outlet->save();
 
         return \redirect('/outlet')->with(['success' => 'Data outlet berhasil ditambahkan']);
@@ -44,11 +48,22 @@ class OutletController extends Controller
             'tlp' => 'required',
         ]);
 
-        Outlet::where('id',$request->id)->update([
-            'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'tlp' => $request->tlp,
-        ]);
+        $outlet = Outlet::find($request->id);
+            $outlet->nama = $request['nama'];
+            $outlet->alamat = $request['alamat'];
+            $outlet->tlp = $request['tlp'];
+            if ($request->file('gambar') == "") 
+            {
+               $outlet->gambar = $outlet->gambar; 
+            } else {
+                $file = $request->file('gambar');
+                $filename = $file->getClientOriginalName();
+                $request->file('gambar')->move('uploadgambar',$filename);
+                $outlet->gambar = $filename;
+            }
+            $outlet->update();
+            
+        
 
         return \redirect('/outlet')->with(['success' => 'Data outlet berhasil diedit']);
     }

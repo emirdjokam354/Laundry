@@ -8,11 +8,17 @@ use App\Paket;
 
 class PaketController extends Controller
 {
+    
+
     public function index()
     {
-        $data['paket'] = Paket::
-        join('t_outlet','t_paket.id_outlet', '=','t_outlet.id')->paginate(5);
+        $data['paket'] = Paket::paginate(5);
         return view('paket/paket',$data);
+    }
+    public function destroy(Paket $paket)
+    {
+        $paket = Paket::findOrFail($paket)->delete();
+        // return \redirect('/paket')->with(['success' => 'Data paket berhasil dihapus']);
     }
 
     public function tambah(){
@@ -29,7 +35,7 @@ class PaketController extends Controller
         ]);
 
         $paket = new Paket;
-        $paket->id_outlet = $request['id_outlet'];
+        $paket->outlet_id = $request['id_outlet'];
         $paket->nm_paket = $request['nm_paket'];
         $paket->jenis = $request['jenis'];
         $paket->harga = $request['harga'];
@@ -59,7 +65,7 @@ class PaketController extends Controller
         ], $messages);
 
         Paket::where('id',$request->id)->update([
-            'id_outlet' => $request->id_outlet,
+            'outlet_id' => $request->id_outlet,
             'jenis' => $request->jenis,
             'nm_paket' => $request->nm_paket,
             'harga' => $request->harga,
@@ -75,11 +81,7 @@ class PaketController extends Controller
     //     return back();
     // }
 
-    public function hapus($id)
-    {
-        Paket::where('id',$id)->delete();
-        return \redirect('/paket')->with(['success' => 'Data paket berhasil diedit']);
-    }
+    
     public function cari(Request $request)
     {
         $cari = $request->cari;

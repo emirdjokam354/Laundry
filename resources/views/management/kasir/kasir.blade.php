@@ -130,7 +130,7 @@
                     <td><img src="{{ url('uploadgambar') }}/{{ $row->gambar }}" class="rounded-circle" alt="User Image" height="50" width="60" id="image"  @if($row->gambar === null) hidden @endif></td>
                     <td>{{$row->email}}</td>
                     <td>{{$row->name}}</td>
-                    <td>{{$row->outlet->nama}}</td>    
+                    <td>{{$row->outlet_id}}</td>    
                     <td><a href="" class="btn btn-primary" data-toggle="tooltip" title="detail">Detail</a>
                         </td>
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded" href="/management/kasir/edit/{{$row->id}}" data-toggle="tooltip"

@@ -88,11 +88,11 @@
             <!-- small box -->
             <div class="card">
                 <p class="card-header">
-                    <i class="fas fa-user-edit" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Edit Data Outlet</label> 
+                    <i class="fas fa-user-edit" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Edit Data Transaksi</label> 
                 </p>
                 <div class="card-body">
-                    @foreach ($paket as $row)                        
-                    <form action="/paket/update" method="post" enctype="multipart/form-data">
+                    @foreach ($transaksi as $row)                        
+                    <form action="/transaksi/update" method="post" enctype="multipart/form-data">
                          @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-block">
                             <button type="button" class="close" data-dismiss="alert">×</button> 
@@ -101,43 +101,67 @@
                         @endif
                         @csrf
                         <input type="hidden" name="id" value="{{$row->id}}">
-                        <div class="form-group row">
-                            <label for="outlet" class="col-sm-2 col-form-label">Outlet</label>
+                         <div class="form-group row">
+                            <label for="kd_invoice" class="col-sm-2 col-form-label">No.Invoice</label>
                             <div class="col-sm-10">
-                            <select name="id_outlet"  required id="outlet" class="form-control">
-                            <option>Pilih Outlet</option>
-                            @foreach ($outlet as $item)
-                                <option value="{{ $item->id }}">{{ $item->id }}. {{ $item->nama }}</option> 
+                            <input type="text" required class="form-control" value="{{$row->kode_invoice }}" readonly  id="kd_invoice">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nama_pel" class="col-sm-2 col-form-label">Nama Pelanggan</label>
+                            <div class="col-sm-10">
+                            <input type="text" required class="form-control" readonly value="{{$row->pelanggan->nama }}" readonly  id="nama_pel">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <div class="col-sm-10">
+                            <input type="text" required class="form-control" readonly value="{{$row->pelanggan->alamat }}" readonly  id="alamat">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tlp" class="col-sm-2 col-form-label">Telepon</label>
+                            <div class="col-sm-10">
+                            <input type="text" required class="form-control" readonly value="{{$row->pelanggan->tlp }}" readonly  id="tlp">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="jenis" class="col-sm-2 col-form-label">Paket</label>
+                            <div class="col-sm-10">
+                            <select name="paket" required id="jenis" class="form-control">
+                            <option>Pilih Paket</option>
+                            @foreach ($paket as $data)
+                              <option value="{{ $data->id }}">{{$data->id}}. {{$data->nm_paket}}</option>  
                             @endforeach
                             </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="jenis" class="col-sm-2 col-form-label">Jenis Paket</label>
+                            <label for="qty" class="col-sm-2 col-form-label">Kuantitas</label>
                             <div class="col-sm-10">
-                            <select name="jenis" id="jenis" class="form-control">
-                            <option>Pilih Jenis Paket</option>
-                            <option value="kiloan">Kiloan</option>
-                            <option value="selimut">Selimut</option>
-                            <option value="bed_cover">Bed Cover</option>
-                            <option value="kaos" {{ old('jenis') == 'kaos' ? 'selected' : '' }}>Kaos</option>
-                            </select>
+                            <input type="number" class="form-control" name="qty" id="qty">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputNama" class="col-sm-2 col-form-label">Nama Paket</label>
+                            <label for="biaya_tmb" class="col-sm-2 col-form-label">Biaya Tambahan</label>
                             <div class="col-sm-10">
-                            <input type="text" class="form-control" value="{{ $row->nm_paket }}" name="nm_paket" id="inputNama">
+                            <input type="number" class="form-control" name="biaya" id="biaya_tmb">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputText" class="col-sm-2 col-form-label">Harga/Kg</label>
+                            <label for="pjk" class="col-sm-2 col-form-label">Pajak</label>
                             <div class="col-sm-10">
-                            <input type="number" value="{{ $row->harga }}" name="harga" required class="form-control" id="inputText">
+                            <input type="number" class="form-control" name="pajak" id="pjk">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="diskon" class="col-sm-2 col-form-label">Diskon</label>
+                            <div class="col-sm-10">
+                            <input type="number" class="form-control" name="diskon" id="diskon">
                             </div>
                         </div>
                         <input type="submit" class="btn btn-primary" style="margin-left:190px;margin-top:20px" value="Update"></input>
-                        <a href="/paket" type="button" class="btn btn-danger" style="margin-top:20px">Kembali</a>
+                        <a href="/transaksi" type="button" class="btn btn-danger" style="margin-top:20px">Kembali</a>
                     </form>
                  @endforeach
                 </div>

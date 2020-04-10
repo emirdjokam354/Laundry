@@ -33,14 +33,14 @@
 <body class="hold-transition sidebar-mini layout-fixed">
   <style>
     .cari{
-      float: right;
+      float: none;
             
     }
+  
     
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
     }
     .panel-border  {
     background-color: #ffffff;
@@ -118,7 +118,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{$newOrder}}</h3>
 
                 <p>Order Terbaru</p>
               </div>
@@ -133,7 +133,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3>{{$totalOrder}}</h3>
 
                 <p>Total Order</p>
               </div>
@@ -146,59 +146,63 @@
           <!-- ./col -->
         </div>
         <div class="row mt-4 p-3">
-          <div class="col-lg col">
-            <div class="card" style="width: 18rem;">
-              <img src="..." class="card-img-top" alt="...">
+          <div class="col-lg-3 col">
+            <div class="card panel-border panel-primary" style="width: 18rem;">
+              <div class="card-header ">
+                <i class="fas fa-store-alt" style="color:#2F63C7;"></i><label style="margin-left:5px;color: #2F63C7">Toko Terlaris</label> 
+              </div>
+              <div>
+                <img src="{{asset('img/outlet.png')}}" class="card-img-top" alt="...">
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h5 class="card-title font-weight-bold text-center">Clothes Laundry</h5>
+                
+                  <p class="card-text mt-4 mr-n4">Jl. Astana Anyar No.12, Cibadak, Kec. Astanaanyar, Kota Bandung, Jawa Barat 40241.</p>
+                  <p class="card-text mt-2">081910002040</p>
+                
+                
+                {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
               </div>
           </div>
           </div>
-          <div class="col-lg col">
+          <div class="col-lg-9 col">
             <div class="card panel-border panel-primary">
               <p class="card-header">
-                  <i class="fas fa-users" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;"> Data Owner</label> 
+                  <i class="fas fa-users" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;"> Transaksi Terbaru</label> 
               </p>
               <div class="card-body">
                 
-                <form action="/management/owner/cari" method="GET" align="left">
-                  <table>
-                    <td><a href="/management/owner/tambah" style="margin-right:695px;float:left;" class="btn btn-primary mb-2 text-white"><i class="fas fa-plus-square mr-2 text-white rounded"></i>Tambah
-                Owner</a></td>
-                <div class="cari">
-                    <td><input type="submit" value="Cari" class="btn btn-primary" id="cari-data"></td>
-                    <br/>
-                    <td><input id="input-produk" class="form-control" type="text" name="cari" placeholder="Cari owner......" value="{{old('cari')}}"></td>
-                </div>
-                  </table>
-                </form>
             <table class="table table-striped table-bordered text-center">
                 <thead style="background-color:#2F63C7;color:#ffffff">
                     <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Gambar</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Kode Outlet</th>
-                    <th scope="col" colspan="3">Aksi</th>
+                    <th scope="col">Tgl.Transaksi</th>
+                    <th scope="col">No.Invoice</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Toko</th>
+                    <th scope="col">Total Harga</th>
+                    <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                  @php
+                      $no = 1;
+                  @endphp
+
+                  @foreach ($transaksi as $pel)
                     <tr>
-                    <th scope="row"></th>
-                    <td><img src="" class="rounded-circle" alt="User Image" height="50" width="60" id="image"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="" class="btn btn-primary" data-toggle="tooltip" title="detail">Detail</a>
-                        </td>
-                        <td><a class="fas fa-edit bg-success p-2 text-white rounded" href="/management/owner/edit/" data-toggle="tooltip"
-                                title="Edit"></a></td>
-                        <td><a class="fas fa-trash-alt bg-danger p-2 text-white rounded" href="/management/owner/hapus/" id="hapus" data-toggle="tooltip"
-                                title="Delete"></a></td>
-                    </tr>    
+                    <th scope="row">{{ $no++ }}</th>
+                    <td>{{ $pel->tgl }}</td>
+                    <td>{{ $pel->kode_invoice }}</td>
+                    <td>{{ $pel->pelanggan->nama }}</td>
+                    <td>{{ $pel->outlet->nama }}</td>
+                    <td>@currency ($pel->paket['harga'] * $pel['qty'])</td>
+                    <td><a href="/transaksi/detail/{{$pel->id}}" class="btn btn-primary" data-toggle="tooltip" title="detail">Detail</a>
+                    </td>
+                    </tr>   
+                  @endforeach 
+
+                  {{ $transaksi->links() }}
                     
                 </tbody>
             </table>
