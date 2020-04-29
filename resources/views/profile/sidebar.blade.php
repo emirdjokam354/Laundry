@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-white-primary elevation-4" style="background-color:#2F63C7;">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#2F63C7;">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{asset('AdminLte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -11,21 +11,16 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-4 pb-3 mb-3 d-flex">
         <div class="image">
-          @if (Auth::check())
-            <img src="{{ url('uploadgambar')}}/{{ Auth::user()->gambar }}" class="img-circle elevation-2" alt="User Image" style="width:50px;height:50px;margin-top:4px">
-          @endif
+          <img src="{{ url('uploadgambar')}}/{{ Auth::user()->gambar }}" class="img-circle elevation-2" alt="User Image" style="width:50px;height:50px;margin-top:4px">
         </div>
-        @if (Auth::check())
         <div class="info">
           <a href="#" class="d-block" style="font-size:20px; color:#ffffff;">{{ Auth::user()->name }}</a>
           <p style="color:#F2F2F2;font-size:20">
             <span class="badge badge-danger right text-danger" style="border-radius:200%; height:15px;">6</span>
             {{Auth::user()->role}}
-          </p>
+        </p>
           
-        </div> 
-        @endif
-        
+        </div>
       </div>
 
       <!-- Sidebar Menu -->
@@ -54,19 +49,19 @@
               <li class="nav-item">
                 <a href="/management/administrator" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p style="color:#F2F2F2">Administrator</p>
+                  <p>Administrator</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/management/kasir" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p style="color:#F2F2F2">Kasir</p>
+                  <p>Kasir</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/management/owner" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p style="color:#F2F2F2">Owner</p>
+                  <p>Owner</p>
                 </a>
               </li>
             </ul>
@@ -80,7 +75,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/outlet" class="nav-link ">
+            <a href="/outlet" class="nav-link">
              <i class="fas fa-store-alt" style="margin-left:5px;color:#ffffff"></i>
               <p style="margin-left:5px;color:white;font-weight:bold">
                 Outlet
@@ -88,7 +83,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/paket" class="nav-link active">
+            <a href="/paket" class="nav-link">
               <i class="fas fa-tshirt" style="margin-left:5px;color:#ffffff"></i>
               <p style="margin-left:5px;color:white;font-weight:bold">
                  Paket Laundry

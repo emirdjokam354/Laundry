@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/summernote/summernote-bs4.css')}}">
+   {{-- Toastr --}}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -39,7 +41,6 @@
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
     }
     .panel-border  {
     background-color: #ffffff;
@@ -93,7 +94,7 @@
      <section class="content">
       <div class="container-fluid">
 
-        @if ($message = Session::get('success'))
+        {{-- @if ($message = Session::get('success'))
             <div class="alert alert-success alert block">
                 <button type="button" class="close" data-dismiss="alert"> x </button>
                 <strong>{{ $message }}</strong>
@@ -111,9 +112,9 @@
                     
                 <form method="POST" id="deleteForm" action"{{route('delete',$row->id) }}">
                   @csrf
-                  {{-- {{ method_field('DELETE') }} --}}
+                  {{ method_field('DELETE') }}
                 <div class="modal-body">
-                  {{-- <input type="hidden" name="_method" value="DELETE"> --}}
+                  <input type="hidden" name="_method" value="DELETE">
                     <p class="error-text"><i class="fa fa-warning modal-icon"></i><p style="font-size:25px;font-family: 'Righteous', cursive;margin-bottom:30px">Apakah anda ingin menghapus data ini</p>
                 </div>
                 <div class="modal-footer">
@@ -124,7 +125,7 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @endforeach --}}
     
         <!-- Small boxes (Stat box) -->
         <div class="row mt-4 p-3">
@@ -167,9 +168,7 @@
                     <td><img src="{{ url('uploadgambar') }}/{{ $row->gambar}}" width="100px" height="70px" alt="" srcset=""></td>
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded"  href="/outlet/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td>
-                        <td><button type="submit" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" id="trash" 
-                          data-target="#myModal{{$row->id}}" data-toggle="modal" aria-hidden="true">
-                        </button></td>
+                        <td><a href="#" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" outlet-id={{$row->id}}></a></td>
                     </tr>    
                     @endforeach
                     
@@ -179,23 +178,6 @@
             <div class="link">
             {{ $outlet->links() }}
             </div>
-            {{-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog" style="background: #021e4f">
-                <div class="modal-content">
-                <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Konfirmasi</h4>
-                </div>
-                <div class="modal-body">
-                <h2>Apakah anda yakin data ini akan <b>dihapus</b>?</h2>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
-                <a class="btn btn-primary" id="btn-yes">Ya</a>
-                </div>
-                </div>
-                </div>
-            </div> --}}
               </div>
             </div>
             <!-- small box -->
@@ -205,7 +187,6 @@
           <!-- ./col -->
         </div>
         <!-- /.row -->
-        <!-- Main row -->
 
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
@@ -266,50 +247,33 @@
 
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>
+{{-- Sweet Alert --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+{{-- Toastr --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
-  // $(document).ready(function () {
+  $('.delete').click(function(){
+    var outlet_id = $(this).attr('outlet-id');
+    swal({
+        title: "Yakin ?",
+        text: "Mau dihapus data admin dengan id "+outlet_id +" ??",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        console.log(willDelete);
+        if (willDelete) {
+          window.location = "/outlet/hapus/"+outlet_id+"";
+        }
+      });
+    })
 
-  //   //delete modal
-  //   var table = $('#datatable').table();
-
-  //   table.on('click','.delete',function () {
-  //     $tr = $(this).closest('tr');
-  //     if ($($tr).hasClass('child')) {
-  //       $tr = $tr.prev('.parent');
-  //     }
-
-  //     var data = table.row($tr).data();
-  //     console.log(data);
-
-  //     $('#deleteForm').attr('action', '/outlet/delete/{id}/'+data[0]);
-  //     $('#myModal').modal('show');
-  //   });
-
-
-
-  });
-// $('#trash').click(function(){
-//     var id=$(this).data('id');
-//     $('#modalDelete').attr('href','delete-cover.php?id='+id);
-// })
-
-//remove cart for session
-		// $(".remove").click(function (e) {
-    //         e.preventDefault();
-
-    //         var ele = $(this);
-
-    //         if(confirm("Yakin untuk menghapus ?")) {
-    //             $.ajax({
-    //                 url: '{{ url('/outlet/hapus/{id}') }}',
-    //                 method: "DELETE",
-    //                 data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
-    //                 success: function (response) {
-    //                     window.location.reload();
-    //                 }
-    //             });
-    //         }
-    //     });
+    @if(Session::get('success')) {
+      toastr.success("{{Session::get('success')}}", "Sukses")
+    }
+    @endif
+ 
 </script>
 </body>
 </html>

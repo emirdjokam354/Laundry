@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/summernote/summernote-bs4.css')}}">
+   {{-- Toastr --}}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
    
@@ -40,7 +42,6 @@
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
     }
     .panel-border  {
     background-color: #ffffff;
@@ -73,7 +74,6 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Management</a></li>
               <li class="breadcrumb-item active">Pelanggan</li>
             </ol>
           </div><!-- /.col -->
@@ -86,12 +86,12 @@
      <section class="content">
       <div class="container-fluid">
 
-        @if ($message = Session::get('success'))
+        {{-- @if ($message = Session::get('success'))
             <div class="alert alert-success alert block">
                 <button type="button" class="close" data-dismiss="alert"> x </button>
                 <strong>{{ $message }}</strong>
             </div>
-        @endif    
+        @endif     --}}
         <!-- Small boxes (Stat box) -->
         <div class="row mt-4 p-3">
           <div class="col-lg col">
@@ -135,7 +135,7 @@
                     {{-- <td>{{ $row->transaksi->kode_invoice }}</td> --}}
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded" href="/pelanggan/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td>
-                        <td><a class="fas fa-trash-alt bg-danger p-2 text-white rounded" href="/pelanggan/hapus/{{$row->id}}" id="hapus" data-toggle="tooltip"
+                        <td><a class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" href="#" pelanggan-id={{ $row->id }} id="hapus" data-toggle="tooltip"
                                 title="Delete"></a></td>
                     </tr>    
                     @endforeach
@@ -211,5 +211,32 @@
 <script src="{{asset('AdminLte/dist/js/demo.js')}}"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>
+{{-- Sweet Alert --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+{{-- Toastr --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+$('.delete').click(function(){
+  var pelanggan_id = $(this).attr('pelanggan-id');
+  swal({
+        title: "Yakin ?",
+        text: "Mau dihapus data admin dengan id "+pelanggan_id +" ??",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        console.log(willDelete);
+        if (willDelete) {
+          window.location = "/pelanggan/hapus/"+pelanggan_id+"";
+        }
+      });
+    })
+
+@if(Session::get('success')) {
+  toastr.success("{{Session::get('success')}}","Sukses");
+}
+@endif
+</script>
 </body>
 </html>

@@ -31,6 +31,19 @@
    
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+  <style>
+    .panel-border.panel-primary 
+    {
+    border-color: #1e88e5 !important;
+    
+    }
+    .panel-border  {
+    background-color: #ffffff;
+    border-top: 3px solid #ccc !important;
+    border-radius: 3px;
+    padding: 10px 20px 0px;
+    }
+  </style>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -93,7 +106,7 @@
         <div class="row mt-4 p-3">
           <div class="col-lg col">
             <!-- small box -->
-            <div class="card">
+            <div class="card panel-border panel-primary">
                 <p class="card-header">
                     <i class="fas fa-user-plus" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Tambah Data Outlet</label> 
                 </p>

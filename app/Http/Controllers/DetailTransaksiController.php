@@ -13,25 +13,30 @@ class DetailTransaksiController extends Controller
 {
      public function detail($id)
     {
-        $detail = DetailTransaksi::all();
         $transaksi = Transaksi::where('id',$id)->get();
         $pelanggan = Pelanggan::all();
         $outlet = Outlet::all();
         $paket = Paket::all();
         
-        return view('transaksi/detail_transaksi',compact('transaksi','pelanggan','outlet','paket','detail'));
+        return view('transaksi/detail_transaksi',compact('transaksi','pelanggan','outlet','paket'));
+    }
+
+    public function invoice($id)
+    {
+        $data['invoice'] = Transaksi::where('kode_invoice',$id)->get();
+        return view('transaksi/invoice',$data);
     }
 
     public function ProsesTransaksi(Request $request)
     {
-        $pesan = [
-            'required' => ':attribute wajib diisi',
-        ];
+        // $pesan = [
+        //     'required' => ':attribute wajib diisi',
+        // ];
 
-        $this->validate($request,[
-            'qty' => 'required',
-            'id_paket' => 'required',
-        ],$pesan);
+        // $this->validate($request,[
+        //     'qty' => 'required',
+        //     'id_paket' => 'required',
+        // ],$pesan);
 
         $dtltransaksi = DetailTransaksi::all();
         $transaksi = Transaksi::where('id',$request->id)->update([
@@ -39,13 +44,13 @@ class DetailTransaksiController extends Controller
             'dibayar' => $request->dibayar,
         ]);
 
-        $detail = new DetailTransaksi;
+        // $detail = new DetailTransaksi;
         // $detail->transaksi_id = $transaksi;
-        $detail->transaksi_id = $request['id_transaksi'];
-        $detail->paket_id = $request['id_paket'];
-        $detail->qty = $request['qty'];
-        $detail->keterangan = $request['keterangan'];
-        $detail->save();
+        // $detail->transaksi_id = $request['id_transaksi'];
+        // $detail->paket_id = $request['id_paket'];
+        // $detail->qty = $request['qty'];
+        // $detail->keterangan = $request['keterangan'];
+        // $detail->save();
 
         return \redirect('/transaksi');
     }

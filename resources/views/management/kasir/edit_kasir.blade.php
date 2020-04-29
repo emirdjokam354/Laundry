@@ -46,7 +46,7 @@
 <div class="wrapper">
 
   <!-- Navbar -->
-    @include('management/navbar');
+    @include('navbar');
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->

@@ -35,6 +35,7 @@ class KasirController extends Controller
         $user = new User($data->all());
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
+        $user->showpassword = $data['password'];
         $user->name = $data['name'];
         $user->outlet_id = $data['id_outlet'];
         $user->role = "kasir";

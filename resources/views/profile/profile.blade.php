@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Paket</title>
+  <title>AdminLTE 3 | Profile</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS -->
@@ -28,31 +28,21 @@
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/summernote/summernote-bs4.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+   
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   <style>
-    .cari{
-      float: right;
-            
-    }
-    
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
+    
     }
     .panel-border  {
     background-color: #ffffff;
     border-top: 3px solid #ccc !important;
     border-radius: 3px;
     padding: 10px 20px 0px;
-}
-
-#trash{
-  padding:2px; border:1px solid red; margin-left:10px; background-color:red; color:#fff
-  }
-
-
+    }
   </style>
 <div class="wrapper">
 
@@ -61,7 +51,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-    @include('paket/sidebar');
+    @include('profile/sidebar');
   {{-- sidebar end --}}
 
   <!-- Content Wrapper. Contains page content -->
@@ -71,12 +61,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Paket Laundry</h1>
+            <h1 class="m-0 text-dark">Edit Profile</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-              <li class="breadcrumb-item active">Paket Laundry</li>
+              <li class="breadcrumb-item active">Edit Profile</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -94,88 +84,92 @@
                 <strong>{{ $message }}</strong>
             </div>
         @endif    
-        
-        {{-- @foreach ($paket as $row)   --}}
-        <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="myModalLabel" style="float:left;margin-right:200px;">Delete Konfirmasi</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                    
-                <form method="POST" id="deleteForm" action"{{route('paket.destroy','test')}}">
-                  {{method_field('delete')}}
-                  {{csrf_field()}}
-                <div class="modal-body">
-                  <input type="hidden" name="id" id="cat_id" value="">
-                    <p class="error-text"><i class="fa fa-warning modal-icon"></i><p style="font-size:25px;font-family: 'Righteous', cursive;margin-bottom:30px">Apakah anda ingin menghapus data ini ?</p>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-default"data-dismiss="modal" aria-hidden="true">No, Cancel</button> <button class="btn btn-danger remove">Ya, Hapus</button>
-
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    {{-- @endforeach --}}
-    
         <!-- Small boxes (Stat box) -->
         <div class="row mt-4 p-3">
           <div class="col-lg col">
-            <div class="card panel-border panel-primary">
-              <p class="card-header">
-                  <i class="fas fa-users" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;"> Data Paket</label> 
-              </p>
-              <div class="card-body">
-                
-                <form action="/paket/cari" method="GET" align="left">
-                  <table>
-                    <td><a href="/paket/tambah" style="margin-right:600px;float:left;" class="btn btn-primary mb-2 text-white"><i class="fas fa-plus-square mr-2 text-white rounded"></i>Tambah
-                Paket</a></td>
-                <div class="cari">
-                    <td><input type="submit" value="Cari" class="btn btn-primary" style="margin-left:55px" id="cari-data"></td>
-                    <br/>
-                    <td><input id="input-produk" class="form-control" type="text" name="cari" placeholder="Cari paket......" value="{{old('cari')}}"></td>
-                </div>
-                  </table>
-                </form>
-            <table class="table table-striped table-bordered text-center" id="datatable">
-                <thead style="background-color:#2F63C7;color:#ffffff">
-                    <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Outlet</th>
-                    <th scope="col">Jenis</th>
-                    <th scope="col">Nama Paket</th>
-                    <th scope="col">Harga/Kg</th>
-                    <th scope="col" colspan="2">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($paket as $row)
-                    <tr>
-                    <th scope="row">{{ isset($i) ? ++$i : $i =1}}</th>
-                       <td>{{ $row->id_outlet }}</td> 
-                    <td>{{ $row->jenis }}</td>
-                    <td>{{ $row->nm_paket }}</td>
-                    <td>@currency($row->harga)</td>
-                        <td><a class="fas fa-edit bg-success p-2 text-white rounded"  href="/paket/edit/{{$row->id}}" data-toggle="tooltip"
-                                title="Edit"></a></td>
-                        <td><button type="submit" class="" id="trash" 
-                          data-target="#myModal" data-toggle="modal" data-catid = {{$row->id}} aria-hidden="true">
-                        </button></td>fas fa-trash-alt bg-danger p-2 text-white rounded delete
-                    </tr>    
-                    @endforeach
-
-                    
-                </tbody>
-            </table>
-
-              </div>
-            </div>
             <!-- small box -->
-            
+            <div class="card panel-border panel-primary">
+                <p class="card-header">
+                    <i class="fas fa-user-plus" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Edit Profile</label> 
+                </p>
+                <div class="card-body">
+                    <form action="{{ url('/profile/edit', Auth::user()->id) }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                         {{-- @if(!empty($user))
+                          @method('PUT')
+                         @endif --}}
+                        <div class="form-group row">
+                            <label for="inputNama" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" value="{{ Auth::user()->email}}" name="email" id="email"
+                            required autocomplete="email" autofocus>
+                            @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="username" class="col-sm-2 col-form-label">Username</label>
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" value="{{Auth::user()->name}}" name="username" required="required" id="username">
+                          </div>
+                        </div>
+                        {{-- <div class="form-group row">
+                            <label for="pass" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                            <input type="password"  name="password" placeholder="Ubah Password" value="{{ Auth::user()->showpassword }}" class="form-control @error('password') is-invalid @enderror" id="pass" 
+                            required autocomplete="new-password">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-sm-2 col-form-label">Konfirmasi Password</label>
+                            <div class="col-sm-10">
+                            <input type="password"  name="password_confirmation" placeholder="Konfirmasi Password" value="{{ Auth::user()->showpassword }}" 
+                            class="form-control @error('password') is-invalid @enderror" id="password-confirm" required>
+                            </div>
+                        </div> --}}
+                        <div class="form-group row">
+                            <label for="tlp" class="col-sm-2 col-form-label">Telepon</label>
+                            <div class="col-sm-10">
+                            <input type="number" class="form-control" value="{{Auth::user()->tlp}}" name="tlp" id="tlp">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <div class="col-sm-10">
+                            <input type="text" class="form-control" value="{{Auth::user()->alamat}}" name="alamat" id="tlp">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="jenkel" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                            <div class="col-sm-10">
+                            <select name="jenkel" class="form-control">
+                            <option>Pilih Jenkel</option>
+                            <option value="Pria">Pria</option>
+                            <option value="Wanita">Wanita</option> 
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="inputFile" class="col-sm-2 col-form-label">File input</label>
+                        <div class="input-group col-sm-10">
+                            <div class="custom-file">
+                              <input type="file" name="gambar" class="custom-file-input" id="inputFile">
+                              <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                            </div>
+                            
+                          </div>
+                            <br>
+                            <br>
+                            <img id="image_upload" style="margin-left:200px" src="http://placehold.it/100x100" width="100px" height="100px" alt="img"/>
+                        </div>
+                        <input type="submit" class="btn btn-primary" style="margin-left:190px;margin-top:20px" value="Edit"></input>
+                        <a href="/dashboard" type="button" class="btn btn-danger" style="margin-top:20px">Kembali</a>
+                    </form>
+                </div>
+            </div>
           </div>
         
           <!-- ./col -->
@@ -239,28 +233,22 @@
 <script src="{{asset('AdminLte/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('AdminLte/dist/js/demo.js')}}"></script>
+<script>
+  function readURL(input){
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
 
+      reader.onload = function (e){
+        $('#image_upload').attr('src', e.target.result);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  $("#inputFile").change(function () {
+    readURL(this);
+  });
+</script>
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>
-<script>
- $('#myModal').on('show.bs.modal', function (event) {
-    
-    var button = $(event.relatedTarget)
-    
-    var cat_id = button.data('catid')
-    var modal = $(this)
-
-    modal.find('.modal-body #cat_id').val(cat_id);
-
- })
-</script>
 </body>
 </html>
-
-list yang perlu diubah
-1. membuat konfirmasi delete
-2. membuat fungsi filter data paling banyak
-3. memodifikasi database antara tabel transaksi dan detail transaksi
-4. membuat laporan.
-5. datetime picker.
-6. menghilangkan option sebelumnya pada status pemesanan dan bayar.

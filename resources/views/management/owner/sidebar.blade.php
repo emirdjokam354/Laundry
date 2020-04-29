@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#2F63C7;">
+<aside class="main-sidebar sidebar-white-primary elevation-4" style="background-color:#2F63C7;">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{asset('AdminLte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -49,19 +49,19 @@
               <li class="nav-item">
                 <a href="/management/administrator" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Administrator</p>
+                  <p style="color:#F2F2F2">Administrator</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/management/kasir" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kasir</p>
+                  <p style="color:#F2F2F2">Kasir</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/management/owner" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Owner</p>
+                  <p style="color:#F2F2F2;font-weight:bold">Owner</p>
                 </a>
               </li>
             </ul>
@@ -87,6 +87,14 @@
               <i class="fas fa-tshirt" style="margin-left:5px;color:#ffffff"></i>
               <p style="margin-left:5px;color:white;font-weight:bold">
                  Paket Laundry
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="/identitas" class="nav-link">
+              <i class="fas fa-edit" style="margin-left:5px;color:#ffffff"></i>
+              <p style="margin-left:5px;color:white;font-weight:bold">
+                 Identitas Aplikasi
               </p>
             </a>
           </li>

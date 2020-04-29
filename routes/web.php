@@ -80,7 +80,7 @@ Route::get('/outlet/tambah','OutletController@tambah');
 Route::post('/outlet/store','OutletController@store');
 Route::get('/outlet/edit/{id}','OutletController@edit');
 Route::post('/outlet/update','OutletController@update');
-Route::post('/outlet/delete/{id}','OutletController@hapus')->name('delete');
+Route::get('/outlet/hapus/{id}','OutletController@hapus');
 Route::get('/outlet/cari','OutletController@cari');
 
 
@@ -88,10 +88,10 @@ Route::get('/outlet/cari','OutletController@cari');
 Route::get('/paket','PaketController@index')->name('paket')->middleware('auth');
 Route::get('/paket/tambah','PaketController@tambah');
 Route::post('/paket/store','PaketController@store');
-Route::get('/paket/edit/{id}','PaketController@edit');
+Route::get('/paket/edit/{paket}','PaketController@edit');
 Route::post('/paket/update','PaketController@update');
 // Route::resource('paket','PaketController');
-Route::get('paket{id}','PaketController@destroy');
+Route::get('/paket/delete/{id}','PaketController@hapus');
 Route::get('/paket/cari','PaketController@cari');
 
 //transaksi
@@ -104,8 +104,11 @@ Route::post('/transaksi/update','TransaksiController@update');
 //detail transaksi
 Route::get('/transaksi/detail/{id}','DetailTransaksiController@detail');
 Route::post('/transaksi/detail','DetailTransaksiController@ProsesTransaksi');
-
-
+//invoice
+Route::get('/transaksi/kwitansi/{kode_invoice}','DetailTransaksiController@invoice');
+//profile
+Route::get('/profile/{name}','ProfileController@profile');
+Route::post('/profile/edit/{id}','ProfileController@editProfile');
 // percobaan pelanggan
 use App\Pelanggan;
 use App\Transaksi;

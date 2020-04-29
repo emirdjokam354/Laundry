@@ -15,7 +15,7 @@ class TransaksiController extends Controller
     public function index()
     {
         $pelanggan = Pelanggan::all();
-        $transaksi = Transaksi::orderBy('created_at','desc')->paginate(5);
+        $transaksi = Transaksi::orderBy('created_at','asc')->paginate(5);
         
         return view('transaksi/transaksi', compact('transaksi','pelanggan'));
     }

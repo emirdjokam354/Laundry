@@ -36,6 +36,7 @@ class AdministratorController extends Controller
         $user = new User($request->all());
         $user->email = $request['email'];
         $user->password = Hash::make($request['password']);
+        $user->showpassword = $request['password'];
         $user->name = $request['name'];
         $user->outlet_id = $request['id_outlet'];
         $user->role = "admin";

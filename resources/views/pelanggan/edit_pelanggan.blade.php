@@ -31,6 +31,19 @@
    
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+   <style>
+    .panel-border.panel-primary 
+    {
+    border-color: #1e88e5 !important;
+    
+    }
+    .panel-border  {
+    background-color: #ffffff;
+    border-top: 3px solid #ccc !important;
+    border-radius: 3px;
+    padding: 10px 20px 0px;
+    }
+  </style>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -86,7 +99,7 @@
         <div class="row mt-4 p-3">
           <div class="col-lg col">
             <!-- small box -->
-            <div class="card">
+            <div class="card panel-border panel-primary">
                 <p class="card-header">
                     <i class="fas fa-user-edit" style="color:#2F63C7;"></i><label style="margin-left:5px;color:#2F63C7;">Edit Data Pelanggan</label> 
                 </p>
@@ -124,8 +137,10 @@
                             <div class="col-sm-10">
                             <select name="jenkel" class="form-control">
                             <option>Pilih Jenkel</option>
-                            <option value="Pria">Pria</option>
-                            <option value="Wanita">Wanita</option> 
+                            <option {{ old('jenkel', $row->jenkel) == 'Pria' ?
+                            'selected' : ''}} value="Pria">Pria</option>
+                            <option {{ old('jenkel', $row->jenkel) == 'Wanita' ?
+                            'selected' : ''}} value="Wanita">Wanita</option> 
                             </select>
                             </div>
                         </div>

@@ -25,7 +25,7 @@ class OutletController extends Controller
 
         $gambar = $request->file('gambar');
         $namafile = $gambar->getClientOriginalName();
-        $request->file('gambar')->mova('uploadgambar',$namafile);
+        $request->file('gambar')->move('uploadgambar',$namafile);
         $outlet = new Outlet($request->all());
         $outlet->nama = $request['nama'];
         $outlet->alamat = $request['alamat'];
@@ -68,7 +68,7 @@ class OutletController extends Controller
         return \redirect('/outlet')->with(['success' => 'Data outlet berhasil diedit']);
     }
 
-    public function destory($id){
+    public function hapus($id){
         $outlet = Outlet::where('id',$id)->delete();
         return \redirect('/outlet')->with(['success' => 'Data outlet berhasil dihapus']);
     }

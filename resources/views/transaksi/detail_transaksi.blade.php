@@ -151,48 +151,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputTgl" class="col-sm-2 col-form-label">Batas Pembayaran</label>
-                            <div class="col-sm-10">
-                            <input type="date"  name="batas_waktu" readonly value="{{ old($row->batas_waktu, date('Y-m-d'))}}" class="form-control" id="inputTgl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inputbayar" class="col-sm-2 col-form-label">Tanggal Pembayaran</label>
-                            <div class="col-sm-10">
-                            <input type="date" value="{{ old('batas_waktu')}}" class="form-control" name="batas_waktu" id="inputbayar">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="paket" class="col-sm-2 col-form-label">Paket</label>
-                            <div class="col-sm-10">
-                            <select name="id_paket" required id="paket" class="form-control">
-
-                            <option>Pilih Paket</option>
-                            @foreach ($paket as $data_paket)
-                              <option value="{{ $data_paket->id }}">{{ $data_paket->id}}. {{ $data_paket->nm_paket }}</option>
-                            @endforeach
-
-                            </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="qty" class="col-sm-2 col-form-label">Kuantitas</label>
-                            <div class="col-sm-10">
-                            <input type="number" class="form-control" name="qty" id="qty">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="ket" class="col-sm-2 col-form-label">Keterangan</label>
-                            <div class="col-sm-10">
-                            <textarea type="text" class="form-control" name="keterangan" id="ket"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="jenis" class="col-sm-2 col-form-label">Status Pemesanan</label>
                             <div class="col-sm-10">
                             <select name="status" required id="jenis" class="form-control">
 
                             <option>Pilih Status Pemesanan</option>
+                            @if ($row->status == 'baru')
                             <option {{ old('status', $row->status) == "baru" ?
                             'selected' : '' }}
                             value="baru">Baru</option>
@@ -204,7 +168,33 @@
                             value="selesai">Selesai</option>
                             <option {{ old('status', $row->status) == "diambil" ?
                             'selected' : '' }} 
+                            value="diambil">Diambil</option> 
+
+                            @elseif($row->status == 'proses')
+                            <option {{ old('status', $row->status) == "proses" ?
+                            'selected' : '' }} 
+                            value="proses">Proses</option>
+                            <option {{ old('status', $row->status) == "selesai" ?
+                            'selected' : '' }} 
+                            value="selesai">Selesai</option>
+                            <option {{ old('status', $row->status) == "diambil" ?
+                            'selected' : '' }} 
                             value="diambil">Diambil</option>
+
+                            @elseif($row->status == 'selesai')
+                            <option {{ old('status', $row->status) == "selesai" ?
+                            'selected' : '' }} 
+                            value="selesai">Selesai</option>
+                            <option {{ old('status', $row->status) == "diambil" ?
+                            'selected' : '' }} 
+                            value="diambil">Diambil</option>
+
+                            @elseif($row->status == 'diambil')
+                            <option {{ old('status', $row->status) == "diambil" ?
+                            'selected' : '' }} 
+                            value="diambil">Diambil</option>
+                            @endif
+                            
                             </select>
                             </div>
                         </div>
@@ -213,12 +203,24 @@
                             <div class="col-sm-10"> 
                             <select name="dibayar" required id="jenis" class="form-control">
                               <option value="">Pilih Status Pembayaran</option>
-                            <option {{ old('dibayar', $row->dibayar) == "belum_dibayar" ? 
-                            'selected' : '' }} 
-                              value="belum_dibayar">Belum Dibayar</option>
-                            <option {{ old('dibayar', $row->dibayar) == "sudah_dibayar" ?
-                            'selected' : '' }} value="sudah_dibayar">Sudah Dibayar</option>
+                              @if ($row->dibayar == 'belum_dibayar')
+                               <option {{ old('dibayar', $row->dibayar) == "belum_dibayar" ? 
+                              'selected' : '' }} 
+                                value="belum_dibayar">Belum Dibayar</option>
+                              <option {{ old('dibayar', $row->dibayar) == "sudah_dibayar" ?
+                              'selected' : '' }} value="sudah_dibayar">Sudah Dibayar</option>   
+                              @elseif($row->dibayar == 'sudah_dibayar')
+                                <option {{ old('dibayar', $row->dibayar) == "sudah_dibayar" ?
+                              'selected' : '' }} value="sudah_dibayar">Sudah Dibayar</option>
+                              @endif
+                            
                             </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputTgl" class="col-sm-2 col-form-label">Tanggal Ambil</label>
+                            <div class="col-sm-10">
+                            <input type="date"  name="batas_waktu" readonly value="{{ old($row->batas_waktu, date('Y-m-d'))}}" class="form-control" id="inputTgl">
                             </div>
                         </div>
                         
@@ -228,10 +230,10 @@
                         <tr>
                           <th scope="col">No</th>
                           <th scope="col">Tgl Transaksi</th>
-                          <th scope="col">Paket Cucian</th>
-                          <th scope="col">Kuantitas</th>
+                          <th scope="col">Paket Laundry</th>
+                          <th scope="col">Berat Cucian</th>
                           <th scope="col">Harga/Kg</th>
-                          <th scope="col">Keterangan</th>
+                          {{-- <th scope="col">Keterangan</th> --}}
                           <th scope="keterangan">Subtotal</th>
                         </tr>
                       </thead>
@@ -239,16 +241,16 @@
                         <tr>
                           <th scope="row">1</th>
                           <td>{{ $row->tgl }}</td>
-                          @foreach ($detail as $data)
+                          @foreach ($transaksi as $data)
                            <td>{{ $data->paket->nm_paket }}</td>   
                           <td>{{ $data->qty }}</td>
                           <td>{{ $data->paket->harga }}</td>
-                          <td>{{ $data->keterangan }}</td> 
+                          {{-- <td>{{ $data->keterangan }}</td>  --}}
                           <td>@currency($data->paket['harga'] * $data['qty'])</td>
                           
                         </tr>
                         <tr>
-                          <th scope="row" colspan="5" style="padding-left:400px;background-color:#1e88e5;color:white">Total Pesanan</th>
+                          <th scope="row" colspan="4" style="padding-left:200px;font-size:15px; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;background-color:#1e88e5;color:white">Total Pesanan</th>
                           <td></td>
                           <td>@currency($data->paket['harga'] * $data['qty'])</td>
                         </tr>
@@ -256,8 +258,8 @@
                       </tbody>
                   </table>    
                   <input type="submit" class="btn btn-primary" style="margin-top:20px;float:left;" value="Proses Order"></input>
-                  <a href="/transaksi" type="button" class="btn btn-danger" style="margin-top:20px;margin-left:10px">Cetak Invoice</a>
-                    </form>            
+                  <a onclick="OpenInNewTab();" type="button" class="btn btn-danger text-white" style="margin-top:20px;margin-left:10px;">Cetak Invoice</a>
+/                </form>            
                  @endforeach
 
                  
@@ -397,6 +399,11 @@
   $("#inputFile").change(function () {
     readURL(this);
   });
+
+  function OpenInNewTab(url) {
+    var win = window.open('/transaksi/kwitansi/{{$row->kode_invoice}}');
+    win.focus();
+  }
 </script>
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>

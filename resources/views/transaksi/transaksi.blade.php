@@ -125,7 +125,7 @@
                     <th scope="col">Pembayaran</th>
                     <th scope="col">Status Order</th>
                     <th scope="col">Total</th>
-                    <th scope="col" colspan="2">Aksi</th>
+                    <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -140,15 +140,22 @@
                     <td>{{$row->kode_invoice}}</td>
                     <td>{{ $row->pelanggan->nama }}</td>
                     <td>{{ $row->outlet->nama }}</td>
-                    <td><span class="badge badge-success">{{$row->dibayar}}</span></td>                    
+                    @if ($row->dibayar == 'sudah_dibayar')
+                       <td><span class="badge badge-success">
+                       Selesai</span></td>   
+                    @elseif($row->dibayar == 'belum_dibayar')
+                        <td><span class="badge badge-success">
+                       Belum</span></td>  
+                    @endif
+                                        
                     <td><span class="badge badge-success">{{ $row->status }}</span></td>
                     <td>@currency($row->paket['harga'] * $row['qty'])</td>
 
                         <td><a href="/transaksi/detail/{{$row->id}}" class="btn btn-primary">Detail</a></td>
                         {{-- <td><a class="fas fa-edit bg-success p-2 text-white rounded"  href="/transaksi/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td> --}}
-                        <td><a href="/transaksi/hapus/{{$row->id}}" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" data-toogle="tooltip" >
-                        </a></td>
+                        {{-- <td><a href="/transaksi/hapus/{{$row->id}}" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" data-toogle="tooltip" >
+                        </a></td> --}}
                     </tr>    
                     @endforeach
                     

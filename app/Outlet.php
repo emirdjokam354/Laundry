@@ -8,6 +8,7 @@ class Outlet extends Model
 {
     //deklarasi tabel
     protected $table = "t_outlet";
+    protected $fillable = ['nama','alamat','tlp','gambar'];
 
     public function users()
     {

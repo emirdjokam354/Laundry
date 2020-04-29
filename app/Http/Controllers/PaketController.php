@@ -54,13 +54,12 @@ class PaketController extends Controller
 
         $messages = [
             'required' => ':attribute wajib diisi',
-            'integer' => ':attribute paket wajib diisi',
             'numeric' => ':attribute harus diisi dengan angka'
         ];
 
         $this->validate($request,[
             'id_outlet' => 'required|integer',
-            'jenis' => 'required|integer',
+            'jenis' => 'required',
             'harga' => 'required|numeric',
         ], $messages);
 
@@ -74,12 +73,11 @@ class PaketController extends Controller
         return \redirect('/paket')->with(['success' => 'Data paket berhasil diedit']);
     }
 
-    // public function destroy(Request $request)
-    // {
-    //     $paket = Paket::findOrfall($request->id);
-    //     $paket->delete();
-    //     return back();
-    // }
+    public function hapus($id)
+    {
+        $paket = Paket::where('id',$id)->delete();
+        return \redirect('/paket')->with(['success' => 'Data paket berhasil dihapus']);
+    }
 
     
     public function cari(Request $request)

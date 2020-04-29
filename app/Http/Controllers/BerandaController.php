@@ -17,5 +17,6 @@ class BerandaController extends Controller
         $data['transaksi'] = Transaksi::where('status','baru')->orderBy('created_at','desc')->paginate(5);
         return view('beranda/dashboard',$data);
     }
+
     //
 }

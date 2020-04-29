@@ -28,6 +28,10 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/summernote/summernote-bs4.css')}}">
   <!-- Google Font: Source Sans Pro -->
+
+  {{-- Toastr --}}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
@@ -43,7 +47,6 @@
     .panel-border.panel-primary 
     {
     border-color: #1e88e5 !important;
-    color: #1e88e5 !important;
     }
     .panel-border  {
     background-color: #ffffff;
@@ -92,39 +95,6 @@
      <section class="content">
       <div class="container-fluid">
 
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success alert block">
-                <button type="button" class="close" data-dismiss="alert"> x </button>
-                <strong>{{ $message }}</strong>
-            </div>
-        @endif    
-        
-        {{-- @foreach ($paket as $row)   --}}
-        {{-- <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 id="myModalLabel" style="float:left;margin-right:200px;">Delete Konfirmasi</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                    
-                <form method="POST" id="deleteForm" action"{{route('paket.destroy','test')}}">
-                  {{method_field('delete')}}
-                  {{csrf_field()}}
-                <div class="modal-body">
-                  <input type="hidden" name="id" id="cat_id" value="">
-                    <p class="error-text"><i class="fa fa-warning modal-icon"></i><p style="font-size:25px;font-family: 'Righteous', cursive;margin-bottom:30px">Apakah anda ingin menghapus data ini ?</p>
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-default"data-dismiss="modal" aria-hidden="true">No, Cancel</button> <button class="btn btn-danger remove">Ya, Hapus</button>
-
-                </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
-    {{-- @endforeach --}}
-    
         <!-- Small boxes (Stat box) -->
         <div class="row mt-4 p-3">
           <div class="col-lg col">
@@ -168,7 +138,7 @@
                     <td>@currency($row->harga)</td>
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded" href="/paket/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td>
-                        <td><a><button class="fas fa-trash-alt bg-danger p-2 text-white rounded" onclick="deleteData({{ $row->id }})" type="submit"></button></a></td>
+                        <td><a href="#" class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" paket-id ="{{$row->id}}"></a></td>
                     </tr>    
                     @endforeach
 
@@ -248,48 +218,29 @@
 
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
-
-  $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        function deleteData(id){
-            var csrf_token=$('meta[name="csrf_token"]').attr('content');
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    $.ajax({
-                        url : "{{ url('paket')}}" + '/' + id,
-                        type : "POST",
-                        data : {'_method' : 'DELETE', '_token' :csrf_token},
-                        success: function(data){
-                            swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                            });
-                        },
-                        error : function(){
-                            swal({
-                                title: 'Opps...',
-                                text : data.message,
-                                type : 'error',
-                                timer : '1500'
-                            })
-                        }
-                    })
-                } else {
-                swal("Your imaginary file is safe!");
-                }
-            });
+    $('.delete').click(function(){
+      var paket_id = $(this).attr('paket-id');
+      swal({
+        title: "Yakin ?",
+        text: "Mau dihapus data paket dengan id "+paket_id +" ??",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        console.log(willDelete);
+        if (willDelete) {
+          window.location = "/paket/delete/"+paket_id+"";
         }
+      });
+    })
+
+    @if (Session::get('success')) {
+      toastr.success("{{Session::get('success')}}", "Sukses")
+    }
+    @endif
     </script>
 
 </body>

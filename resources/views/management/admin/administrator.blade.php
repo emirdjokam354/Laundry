@@ -28,7 +28,8 @@
   <link rel="stylesheet" href="{{asset('AdminLte/plugins/summernote/summernote-bs4.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-   
+  {{-- Toastr --}}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
   <style>
@@ -85,12 +86,12 @@
      <section class="content">
       <div class="container-fluid">
 
-        @if ($message = Session::get('success'))
+        {{-- @if ($message = Session::get('success'))
             <div class="alert alert-success alert block">
                 <button type="button" class="close" data-dismiss="alert"> x </button>
                 <strong>{{ $message }}</strong>
             </div>
-        @endif    
+        @endif     --}}
         <!-- Small boxes (Stat box) -->
         <div class="row mt-4 p-3">
           <div class="col-lg col">
@@ -102,7 +103,7 @@
                 
                 <form action="/management/administrator/cari" method="GET" align="left">
                   <table>
-                    <td><a href="/management/administrator/tambah" style="margin-right:695px;float:left;" class="btn btn-primary mb-2 text-white"><i class="fas fa-plus-square mr-2 text-white rounded"></i>Tambah
+                    <td><a href="/management/administrator/tambah" style="margin-right:600px;float:left;" class="btn btn-primary mb-2 text-white"><i class="fas fa-plus-square mr-2 text-white rounded"></i>Tambah
                 Admin</a></td>
                 <div class="cari">
                     <td><input type="submit" value="Cari" class="btn btn-primary" id="cari-data"></td>
@@ -119,7 +120,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Username</th>
                     <th scope="col">Outlet</th>
-                    <th scope="col" colspan="3">Aksi</th>
+                    <th scope="col" colspan="2">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -130,11 +131,9 @@
                     <td>{{$row->email}}</td>
                     <td>{{$row->name}}</td>
                     <td>{{$row->outlet->nama}}</td>
-                    <td><a href="" class="btn btn-primary" data-toggle="tooltip" title="detail">Detail</a>
-                        </td>
                         <td><a class="fas fa-edit bg-success p-2 text-white rounded" href="/management/administrator/edit/{{$row->id}}" data-toggle="tooltip"
                                 title="Edit"></a></td>
-                        <td><a class="fas fa-trash-alt bg-danger p-2 text-white rounded" href="/management/administrator/hapus/{{$row->id}}" id="hapus" data-toggle="tooltip"
+                        <td><a class="fas fa-trash-alt bg-danger p-2 text-white rounded delete" href="#" id="hapus" admin-id ={{$row->id}} data-toggle="tooltip"
                                 title="Delete"></a></td>
                     </tr>    
                     @endforeach
@@ -210,5 +209,33 @@
 <script src="{{asset('AdminLte/dist/js/demo.js')}}"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script src="js/jquery.js"></script>
+
+{{-- Sweet Alert --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+{{-- Toastr --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+  $('.delete').click(function(){
+      var user_id = $(this).attr('admin-id');
+      swal({
+        title: "Yakin ?",
+        text: "Mau dihapus data admin dengan id "+user_id +" ??",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        console.log(willDelete);
+        if (willDelete) {
+          window.location = "/management/administrator/hapus/"+user_id+"";
+        }
+      });
+    })
+
+    @if (Session::get('success')) {
+      toastr.success("{{Session::get('success')}}", "Sukses")
+    }
+    @endif
+</script>
 </body>
 </html>

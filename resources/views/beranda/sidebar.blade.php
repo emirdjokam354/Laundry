@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#2F63C7;">
+<aside class="main-sidebar sidebar-white-primary elevation-4" style="background-color:#2F63C7;">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{asset('AdminLte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -29,13 +29,14 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="/dashboard" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p style="color:#ffffff">
                 Dashboard
               </p>
             </a>
           </li>
+          @can('isAdmin')
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="fas fa-users" style="margin-left:5px;color:#ffffff"></i>
@@ -49,40 +50,58 @@
               <li class="nav-item">
                 <a href="/management/administrator" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Administrator</p>
+                  <p style="color:#F2F2F2">Administrator</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/management/kasir" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Kasir</p>
+                  <p style="color:#F2F2F2">Kasir</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/management/owner" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Owner</p>
+                  <p style="color:#F2F2F2">Owner</p>
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li> 
+          @endcan
+
+          @can('isKasir')
+            <li class="nav-item">
             <a href="/pelanggan" class="nav-link">
               <i class="fas fa-user-plus" style="margin-left:5px;color:#ffffff;font-weight:bold"></i>
                 <p style="margin-left:5px;color:white;font-weight:bold">
                     Pelanggan
               </p>
             </a>
-          </li>
-          <li class="nav-item has-treeview">
+          </li>  
+          @elsecan('isAdmin')
+            <li class="nav-item">
+            <a href="/pelanggan" class="nav-link">
+              <i class="fas fa-user-plus" style="margin-left:5px;color:#ffffff;font-weight:bold"></i>
+                <p style="margin-left:5px;color:white;font-weight:bold">
+                    Pelanggan
+              </p>
+            </a>
+          </li>  
+          @endcan
+          
+          @can('isAdmin')
+           <li class="nav-item has-treeview">
             <a href="/outlet" class="nav-link">
              <i class="fas fa-store-alt" style="margin-left:5px;color:#ffffff"></i>
               <p style="margin-left:5px;color:white;font-weight:bold">
                 Outlet
               </p>
             </a>
-          </li>
-          <li class="nav-item has-treeview">
+          </li> 
+          @endcan
+          
+          @can('isAdmin')
+            <li class="nav-item has-treeview">
             <a href="/paket" class="nav-link">
               <i class="fas fa-tshirt" style="margin-left:5px;color:#ffffff"></i>
               <p style="margin-left:5px;color:white;font-weight:bold">
@@ -90,6 +109,26 @@
               </p>
             </a>
           </li>
+          @endcan
+          
+          <li class="nav-item has-treeview">
+            <a href="/identitas" class="nav-link">
+              <i class="fas fa-edit" style="margin-left:5px;color:#ffffff"></i>
+              <p style="margin-left:5px;color:white;font-weight:bold">
+                 Identitas Aplikasi
+              </p>
+            </a>
+          </li>
+          @can('isKasir')
+            <li class="nav-item has-treeview">
+            <a href="/transaksi" class="nav-link">
+              <i class="fas fa-shopping-cart" style="margin-left:5px;color:#ffffff"></i>
+              <p style="margin-left:5px;color:white;font-weight:bold">
+                Transaksi
+              </p>
+            </a>
+          </li>
+          @elsecan('isAdmin')
           <li class="nav-item has-treeview">
             <a href="/transaksi" class="nav-link">
               <i class="fas fa-shopping-cart" style="margin-left:5px;color:#ffffff"></i>
@@ -98,6 +137,18 @@
               </p>
             </a>
           </li>
+          @endcan
+          
+          @can('isKasir')
+            <li class="nav-item has-treeview">
+            <a href="/laporan" class="nav-link">
+              <i class="fas fa-book" style="margin-left:5px;color:#ffffff"></i>
+              <p style="margin-left:5px;color:white;font-weight:bold">
+                Laporan
+              </p>
+            </a>
+          </li>
+          @elsecan('isAdmin')
           <li class="nav-item has-treeview">
             <a href="/laporan" class="nav-link">
               <i class="fas fa-book" style="margin-left:5px;color:#ffffff"></i>
@@ -106,6 +157,17 @@
               </p>
             </a>
           </li>
+          @else
+            <li class="nav-item has-treeview">
+            <a href="/laporan" class="nav-link">
+              <i class="fas fa-book" style="margin-left:5px;color:#ffffff"></i>
+              <p style="margin-left:5px;color:white;font-weight:bold">
+                Laporan
+              </p>
+            </a>
+          </li>
+          @endcan
+          
       </nav>
       <!-- /.sidebar-menu -->
     </div>
